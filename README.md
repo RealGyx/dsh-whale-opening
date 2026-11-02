@@ -19,9 +19,13 @@
 ```bash
 dsh plugin add github:RealGyx/dsh-whale-opening
 ```
-多 profile 时用 `dsh plugin --profile <profile名> add github:RealGyx/dsh-whale-opening`；同一 spec 也可填入插件管理器的包名输入框。安装器会先用 `git ls-remote` 探活仓库（默认 5 秒超时），再由 pnpm 下载并写入 profile 清单，最后自动启用。
+多 profile 时用 `dsh plugin --profile <profile名> add github:RealGyx/dsh-whale-opening`；同一 spec 也可填入插件管理器的包名输入框。
 
-- **前置**：`pnpm` 与 `git` 在 PATH 上；包内含约 35 MB 视频，首次安装需下载整包。
+- `dsh plugin` 把参数转给 pnpm：GitHub 仓库解析为 codeload tarball，锁文件钉住具体 commit 与完整性哈希；装完自动写入 profile 的 `dsh.profile.bundles` 并启用。
+- 从插件管理器面板安装时，后台 `installBundle` 会先做一次 `git ls-remote` 探活（默认 5 秒超时），再由 pnpm 下载；纯命令行安装不经过这一步。
+- 已在 DSH 0.2.1-rc.5 / pnpm 11.28.5 实测：约 4 分钟完成，profile 约 34 MB。
+
+- **前置**：`pnpm` 在 PATH 上（`dsh plugin` 经它安装）；走面板探活路径时另需 `git`。包内含约 35 MB 视频，首次安装需下载整包。
 - **版本要求**：`engines.dsh` 为 `>=0.2.0-rc.1 <0.3.0`。版本不符会以 `incompatible-version` 拒绝，可用 `dsh plugin allow-version` 或插件管理器授予豁免后重试。
 - **更新**：用同一 spec 再执行一次 `add`。
 - **卸载**：`dsh plugin remove dsh-whale-opening`。
