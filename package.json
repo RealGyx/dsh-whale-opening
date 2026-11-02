@@ -1,0 +1,11 @@
+{
+  "name": "dsh-whale-opening",
+  "version": "0.3.1",
+  "private": true,
+  "type": "module",
+  "description": "DeepSeek character opening with viewport-aware display-page composition",
+  "engines": {"node": ">=22.19.0", "dsh": ">=0.2.0-rc.1 <0.3.0"},
+  "exports": {".": "./index.js", "./client": "./client.js", "./package.json": "./package.json"},
+  "files": ["index.js", "client.js", "cordis.patch.yml", "media/opening-4k-h264.mp4", "media/first-frame.jpg", "README.md"],
+  "dsh": {"manifestVersion": 1, "bundle": {"patch": "./cordis.patch.yml"}, "client": {"platform": "web", "immediately": true, "inject": ["@deepseek-ai/dsh-client-ui-layout"]}}
+}
